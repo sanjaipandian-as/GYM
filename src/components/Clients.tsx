@@ -5,8 +5,9 @@ async function getPDFModules() {
   const autoTable = (await import('jspdf-autotable')).default;
   return { jsPDF, autoTable };
 }
+import { generateCurrentPackageBill } from "../components/BillGenerator";
 
-import logo from  "./image.png"
+import logo from  "../assets/logo.jpeg"
 import { API_URI } from "../api/api";
 
 interface GymBill {
@@ -564,6 +565,16 @@ const calculateEndDate = (joiningDate: string, days: number) => {
               >
                 Renew
               </button>
+
+              <button
+  onClick={() => generateCurrentPackageBill(client)}
+  className="bg-blue-500 text-white px-4 py-1 rounded-md"
+>
+  Download Bill
+</button>
+
+              
+
             </td>
           </tr>
 

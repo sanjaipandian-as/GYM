@@ -23,7 +23,7 @@ const GymBillForm: React.FC = () => {
 
   const [formData, setFormData] = useState({
     invoiceId: "",
-    memberId: "",
+    
     invoiceDate: new Date().toISOString().split("T")[0],
     client: "",
     contactNumber: "",
@@ -147,10 +147,7 @@ const GymBillForm: React.FC = () => {
     setError("");
 
     // Validate required fields (memberId, client, contactNumber as example)
-    if (!formData.memberId.trim()) {
-      setError("Please enter Member ID.");
-      return;
-    }
+   
     if (!formData.client.trim()) {
       setError("Please enter Client name.");
       return;
@@ -218,306 +215,184 @@ const GymBillForm: React.FC = () => {
     }
   };
 
-  return (
-    <div className="p-6 bg-[#f4f7fb] min-h-screen">
-      <h2 className="bg-yellow-300 text-white text-sm font-semibold p-2 rounded">
-        Create New Bill for Gym Membership
-      </h2>
+ return (
+  <div className="p-4 md:p-6 bg-[#f4f7fb] min-h-screen">
+    <h2 className="bg-yellow-300 text-white text-sm font-semibold p-2 rounded">
+      Create New Bill for Gym Membership
+    </h2>
 
-      <form onSubmit={handleSubmit} className="bg-white mt-4 p-6 rounded-lg shadow-md text-sm space-y-6">
-        {/* Row 1 */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label className="text-gray-600 font-medium">Member ID</label>
-            <input
-              type="text"
-              name="memberId"
-              value={formData.memberId}
-              onChange={handleChange}
-              className={`border p-2 w-full rounded ${error ? "border-red-500" : ""}`}
-              placeholder="Enter Member ID"
-            />
-          </div>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white mt-4 p-4 md:p-6 rounded-lg shadow-md text-sm space-y-6"
+    >
 
-      {/*    <div>
-            <label className="text-gray-600 font-medium">Invoice ID</label>
-            <input
-              type="text"
-              name="invoiceId"
-              value={formData.invoiceId}
-              onChange={handleChange}
-              className="border p-2 w-full rounded"
-              placeholder="Invoice ID"
-            />
-          </div>
-
-          <div>
-            <label className="text-gray-600 font-medium">Invoice Date</label>
-            <input
-              type="date"
-              name="invoiceDate"
-              value={formData.invoiceDate}
-              onChange={handleChange}
-              className="border p-2 w-full rounded"
-            />
-          </div>*/}
+      {/* Row 2 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label>Client*</label>
+          <input name="client" value={formData.client} onChange={handleChange} className="border p-2 w-full rounded" />
         </div>
-
-        {/* Row 2 */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Client*</label>
-            <input name="client" value={formData.client} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Contact Number*</label>
-            <input name="contactNumber" value={formData.contactNumber} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Alternate Contact</label>
-            <input name="alternateContact" value={formData.alternateContact} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
+        <div>
+          <label>Contact Number*</label>
+          <input name="contactNumber" value={formData.contactNumber} onChange={handleChange} className="border p-2 w-full rounded" />
         </div>
-
-        {/* Row 3 */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Email</label>
-            <input name="email" value={formData.email} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Client Source</label>
-            <input name="clientSource" value={formData.clientSource} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Gender</label>
-            <select name="gender" value={formData.gender} onChange={handleChange} className="border p-2 w-full rounded">
-              <option value="">Select Gender</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
-          </div>
+        <div>
+          <label>Alternate Contact</label>
+          <input name="alternateContact" value={formData.alternateContact} onChange={handleChange} className="border p-2 w-full rounded" />
         </div>
+      </div>
 
-        {/* Row 4 */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Date of Birth</label>
-            <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Anniversary</label>
-            <input type="date" name="anniversary" value={formData.anniversary} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Profession</label>
-            <input name="profession" value={formData.profession} onChange={handleChange} className="border p-2 w-full rounded" />
+      {/* Row 3 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label>Email</label>
+          <input name="email" value={formData.email} onChange={handleChange} className="border p-2 w-full rounded" />
+        </div>
+        <div>
+          <label>Client Source</label>
+          <input name="clientSource" value={formData.clientSource} onChange={handleChange} className="border p-2 w-full rounded" />
+        </div>
+        <div>
+          <label>Gender</label>
+          <select name="gender" value={formData.gender} onChange={handleChange} className="border p-2 w-full rounded">
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Row 4 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label>Date of Birth</label>
+          <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} className="border p-2 w-full rounded" />
+        </div>
+        <div>
+          <label>Anniversary</label>
+          <input type="date" name="anniversary" value={formData.anniversary} onChange={handleChange} className="border p-2 w-full rounded" />
+        </div>
+        <div>
+          <label>Profession</label>
+          <input name="profession" value={formData.profession} onChange={handleChange} className="border p-2 w-full rounded" />
+        </div>
+      </div>
+
+      {/* Row 5 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label>Tax ID</label>
+          <input name="taxId" value={formData.taxId} onChange={handleChange} className="border p-2 w-full rounded" />
+        </div>
+        <div>
+          <label>Workout Hours</label>
+          <input name="workoutHours" value={formData.workoutHours} onChange={handleChange} className="border p-2 w-full rounded" />
+        </div>
+        <div>
+          <label>Area Address</label>
+          <textarea name="areaAddress" value={formData.areaAddress} onChange={handleChange} className="border p-2 w-full rounded"></textarea>
+        </div>
+      </div>
+
+      {/* Row 6 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label>Remarks</label>
+          <textarea name="remarks" value={formData.remarks} onChange={handleChange} className="border p-2 w-full h-20 rounded"></textarea>
+        </div>
+        <div className="col-span-1 md:col-span-2">
+          <label>Profile Picture</label>
+          <div className="border border-dashed p-4 text-center rounded-lg">
+            <input type="file" accept="image/*" onChange={handleFileChange} />
           </div>
         </div>
+      </div>
 
-        {/* Row 5 */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Tax ID</label>
-            <input name="taxId" value={formData.taxId} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Workout Hours</label>
-            <input name="workoutHours" value={formData.workoutHours} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Area Address</label>
-            <textarea name="areaAddress" value={formData.areaAddress} onChange={handleChange} className="border p-2 w-full rounded"></textarea>
-          </div>
+      {/* Package */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label>Package</label>
+          <select
+            name="package"
+            value={formData.package}
+            onChange={(e) => {
+              const selected = packages.find((p) => p.packageName === e.target.value);
+              const days = selected ? selected.days : 0;
+              const price = selected ? selected.price : 0;
+              const newEnd = calculateEndDate(formData.joiningDate, days);
+
+              setFormData((prev) => ({
+                ...prev,
+                package: e.target.value,
+                days: days.toString(),
+                price: price.toString(),
+                endDate: newEnd,
+              }));
+            }}
+            className="border p-2 w-full rounded"
+          >
+            <option value="">Select Package</option>
+            {packages.map((pkg) => (
+              <option key={pkg._id} value={pkg.packageName}>
+                {pkg.packageName}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Row 6 */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Remarks (if any)</label>
-            <textarea name="remarks" value={formData.remarks} onChange={handleChange} className="border p-2 w-full h-20 rounded"></textarea>
-          </div>
-          <div className="col-span-2">
-            <label>Profile Picture</label>
-            <div className="border border-dashed p-4 text-center rounded-lg">
-              <input type="file" accept="image/*" onChange={handleFileChange} />
-            </div>
-          </div>
+        <div>
+          <label>Joining Date</label>
+          <input
+            type="date"
+            name="joiningDate"
+            value={formData.joiningDate}
+            onChange={(e) => {
+              const newJoin = e.target.value;
+              const newEnd = calculateEndDate(newJoin, parseInt(formData.days) || 0);
+              setFormData((prev) => ({ ...prev, joiningDate: newJoin, endDate: newEnd }));
+            }}
+            className="border p-2 w-full rounded"
+          />
         </div>
 
-        {/* Package / Dates */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Package</label>
-            <select
-              name="package"
-              value={formData.package}
-              onChange={(e) => {
-                const selected = packages.find((p) => p.packageName === e.target.value);
-                const days = selected ? selected.days : 0;
-                const price = selected ? selected.price : 0;
-                const newEnd = calculateEndDate(formData.joiningDate, days);
-                setFormData((prev) => ({
-                  ...prev,
-                  package: e.target.value,
-                  days: days.toString(),
-                  price: price.toString(),
-                  endDate: newEnd,
-                }));
-              }}
-              className="border p-2 w-full rounded"
-            >
-              <option value="">Select Package Name</option>
-              {packages.map((pkg) => (
-                <option key={pkg._id} value={pkg.packageName}>
-                  {pkg.packageName}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label>Joining Date</label>
-            <input
-              type="date"
-              name="joiningDate"
-              value={formData.joiningDate}
-              onChange={(e) => {
-                const newJoin = e.target.value;
-                const newEnd = calculateEndDate(newJoin, parseInt(formData.days) || 0);
-                setFormData((prev) => ({ ...prev, joiningDate: newJoin, endDate: newEnd }));
-              }}
-              className="border p-2 w-full rounded"
-            />
-          </div>
-
-          <div>
-            <label>End Date</label>
-            <input type="date" name="endDate" value={formData.endDate} readOnly className="border p-2 w-full bg-gray-50 rounded" />
-          </div>
+        <div>
+          <label>End Date</label>
+          <input type="date" value={formData.endDate} readOnly className="border p-2 w-full bg-gray-50 rounded" />
         </div>
+      </div>
 
-        {/* Sessions / Charges */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Session(s)</label>
-            <input name="sessions" value={formData.sessions} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Admission Charges</label>
-            <input name="admissionCharges" value={formData.admissionCharges} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Discount Amount</label>
-            <input name="discountAmount" value={formData.discountAmount} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
+      {/* Amount Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label>Amount Payable</label>
+          <input value={formData.amountPayable} readOnly className="border p-2 w-full bg-gray-50 rounded" />
         </div>
-
-        {/* Price / Tax / Discount */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Price</label>
-            <input name="price" value={formData.price} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-      {/*    <div>
-            <label>Discount (%)</label>
-            <input name="discount" value={formData.discount} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>*/}
-          <div>
-            <label>Tax (%)</label>
-            <input name="tax" value={formData.tax} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
+        <div>
+          <label>Amount Paid</label>
+          <input name="amountPaid" value={formData.amountPaid} onChange={handleChange} className="border p-2 w-full rounded" />
         </div>
-
-        {/* Amounts */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Amount Payable</label>
-            <input name="amountPayable" value={formData.amountPayable} readOnly className="border p-2 w-full bg-gray-50 rounded" />
-          </div>
-          <div>
-            <label>Amount Paid</label>
-            <input name="amountPaid" value={formData.amountPaid} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Balance</label>
-            <input name="balance" value={formData.balance} readOnly className="border p-2 w-full bg-gray-50 rounded" />
-          </div>
+        <div>
+          <label>Balance</label>
+          <input value={formData.balance} readOnly className="border p-2 w-full bg-gray-50 rounded" />
         </div>
+      </div>
 
-        {/* Other payment/status fields */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Amount</label>
-            <input name="amount" value={formData.amount} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Followup Date</label>
-            <input type="date" name="followupDate" value={formData.followupDate} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-          <div>
-            <label>Status</label>
-            <select name="status" value={formData.status} onChange={handleChange} className="border p-2 w-full rounded">
-              <option value="">Select Status</option>
-              <option>Active</option>
-              <option>Inactive</option>
-              <option>Pending</option>
-              <option>Completed</option>
-              <option>Cancelled</option>
-            </select>
-          </div>
-        </div>
+      {/* Error */}
+      {error && <p className="text-red-600 text-sm font-medium">{error}</p>}
 
-        {/* Trainer Section */}
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <label>Appoint Trainer</label>
-            <select name="appointTrainer" value={formData.appointTrainer} onChange={handleChange} className="border p-2 w-full rounded">
-              <option value="">Select Trainer</option>
-              {trainers.map((t) => (
-                <option key={t._id} value={t.name}>
-                  {t.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-  <label>Payment Method Detail</label>
-  <select
-    name="paymentMethodDetail"
-    value={formData.paymentMethodDetail}
-    onChange={handleChange}
-    className="border p-2 w-full rounded"
-  >
-    <option value="">Select Payment Mode</option>
-    {upiOptions.map((upi) => (
-      <option key={upi} value={upi}>
-        {upi}
-      </option>
-    ))}
-  </select>
-</div>
-
-          <div>
-            <label>Client Representative</label>
-            <input name="clientRep" value={formData.clientRep} onChange={handleChange} className="border p-2 w-full rounded" />
-          </div>
-        </div>
-              
-        {/* Error message */}
-        {error && <p className="text-red-600 text-sm mt-1 font-medium">{error}</p>}
-
-        {/* Save */}
-        <div className="flex justify-end">
-          <button type="submit" className="bg-yellow-300 text-white px-6 py-2 rounded hover:bg-[#2c2c60]">
-            Save
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+      {/* Submit */}
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          className="w-full md:w-auto bg-yellow-300 text-white px-6 py-2 rounded hover:bg-[#2c2c60]"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+);
 };
 
 export default GymBillForm;

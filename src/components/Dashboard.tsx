@@ -52,7 +52,54 @@ const Dashboard: React.FC = () => {
   
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [birthdays, setBirthdays] = useState<any[]>([]);
 
+  const fetchBirthdays = async () => {
+  try {
+    const res = await axios.get(`${API_URI}/gymbill`);
+    const data = res.data;
+
+    const today = new Date();
+    const todayMonth = today.getMonth();
+    const todayDate = today.getDate();
+
+    const todayBirthdays = data.filter((user: any) => {
+      if (!user.dateOfBirth) return false;
+
+      const dob = new Date(user.dateOfBirth);
+
+      return (
+        dob.getMonth() === todayMonth &&
+        dob.getDate() === todayDate
+      );
+    });
+
+    setBirthdays(todayBirthdays);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const sendWish = (name: string, phone: string) => {
+  const message = `🎉 Happy Birthday ${name}! Stay strong and keep crushing your fitness goals 💪🔥`;
+
+  // Remove spaces, +, special chars
+  let formattedPhone = phone.replace(/\D/g, "");
+
+  // Remove leading 0
+  if (formattedPhone.startsWith("0")) {
+    formattedPhone = formattedPhone.substring(1);
+  }
+
+  // Add India country code if missing
+  if (!formattedPhone.startsWith("91")) {
+    formattedPhone = "91" + formattedPhone;
+  }
+
+  const url = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+};
   const [totalClients, setTotalClients] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
   const [inactiveCount, setInactiveCount] = useState(0);
@@ -180,6 +227,10 @@ const Dashboard: React.FC = () => {
     fetchStats();
   }, [fromDate, toDate, selectedMonth, selectedYear]);
 
+  useEffect(() => {
+  fetchBirthdays();
+}, []);
+
   const stats: Stat[] = [
     { label: "Total Revenue Collected", value: totalAmountPaid, icon: UserCheck },
     { label: "Total Pending Balance", value: totalPendingBalance, icon: UserX },
@@ -267,66 +318,111 @@ const Dashboard: React.FC = () => {
       </div>
     )}
 
+<div className="bg-yellow-50 rounded-lg shadow-md border p-4 mb-10">
+  <h2 className="text-lg font-semibold text-yellow-700 mb-4 flex items-center gap-2">
+    🎂 Today's Birthdays
+  </h2>
+
+  {birthdays.length === 0 ? (
+    <p className="text-gray-500">No birthdays today</p>
+  ) : (
+    <div className="space-y-3">
+      {birthdays.map((b) => (
+        <div
+          key={b._id}
+          className="flex justify-between items-center bg-white p-3 rounded-lg shadow hover:shadow-md transition"
+        >
+          {/* Client Info */}
+          <div>
+            <p className="font-semibold text-yellow-800">
+              {b.client}
+            </p>
+            <p className="text-xs text-gray-500">
+              {new Date(b.dateOfBirth).toLocaleDateString()}
+            </p>
+          </div>
+
+          {/* Wish Button */}
+          <button
+            onClick={() => sendWish(b.client, b.contactNumber)}
+            className="bg-yellow-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-yellow-600 transition"
+          >
+            🎉 Wish
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
     {/* ----------------------------- */}
     {/* 📊 MONTHLY GRAPH SECTION      */}
     {/* ----------------------------- */}
-    <div className="bg-white rounded-lg shadow-md border p-4 mb-10">
-      <h2 className="text-lg font-semibold text-yellow-800 mb-4">
-        Monthly Revenue Overview
-      </h2>
+   <div className="bg-white rounded-lg shadow-md border p-4 md:p-6 mb-10">
 
-      {/* ✅ Month & Year Filters moved here */}
-      <div className="flex flex-wrap gap-4 mb-4">
-        <div>
-          <label className="text-sm font-medium text-yellow-700 mb-1 block">
-            Month
-          </label>
-          <select
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(Number(e.target.value))}
-            className="px-3 py-2 border rounded-lg"
-          >
-            {[
-              "January","February","March","April","May","June",
-              "July","August","September","October","November","December",
-            ].map((m, i) => (
-              <option key={i} value={i}>
-                {m}
-              </option>
-            ))}
-          </select>
-        </div>
+  <h2 className="text-base md:text-lg font-semibold text-yellow-800 mb-4">
+    Monthly Revenue Overview
+  </h2>
 
-        <div>
-          <label className="text-sm font-medium text-yellow-700 mb-1 block">
-            Year
-          </label>
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(Number(e.target.value))}
-            className="px-3 py-2 border rounded-lg"
-          >
-            {Array.from({ length: 5 }, (_, i) => (
-              <option key={i} value={2022 + i}>
-                {2022 + i}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+  {/* Filters */}
+  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
 
-      {/* 📈 GRAPH */}
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={monthlyGraph}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="revenue" fill="#facc15" name="Revenue (₹)" />
-        </BarChart>
-      </ResponsiveContainer>
+    {/* Month */}
+    <div className="w-full sm:w-auto">
+      <label className="text-xs md:text-sm font-medium text-yellow-700 mb-1 block">
+        Month
+      </label>
+      <select
+        value={selectedMonth}
+        onChange={(e) => setSelectedMonth(Number(e.target.value))}
+        className="w-full sm:w-auto px-3 py-2 border rounded-lg"
+      >
+        {[
+          "January","February","March","April","May","June",
+          "July","August","September","October","November","December",
+        ].map((m, i) => (
+          <option key={i} value={i}>
+            {m}
+          </option>
+        ))}
+      </select>
     </div>
+
+    {/* Year */}
+    <div className="w-full sm:w-auto">
+      <label className="text-xs md:text-sm font-medium text-yellow-700 mb-1 block">
+        Year
+      </label>
+      <select
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(Number(e.target.value))}
+        className="w-full sm:w-auto px-3 py-2 border rounded-lg"
+      >
+        {Array.from({ length: 5 }, (_, i) => (
+          <option key={i} value={2022 + i}>
+            {2022 + i}
+          </option>
+        ))}
+      </select>
+    </div>
+
+  </div>
+
+  {/* Chart */}
+  <div className="w-full h-[250px] sm:h-[300px] md:h-[350px]">
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={monthlyGraph}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+        <YAxis tick={{ fontSize: 10 }} />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="revenue" fill="#facc15" name="Revenue (₹)" />
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+
+</div>
   </div>
 );
 

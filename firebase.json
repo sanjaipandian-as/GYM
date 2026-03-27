@@ -5,6 +5,13 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+      "rewrites": [
+      {
+        "source": "/api/**",
+        "destination": "http://168.231.66.208:5200/api"
+      }
     ]
+    
   }
 }

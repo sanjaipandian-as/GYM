@@ -90,82 +90,38 @@ export default function TrainerPage() {
     setFormData({ name: "", contactNumber: "", email: "", specialization: "", experience: 0 });
   };
 
-  return (
-    <div className="p-6 w-full overflow-auto text-sm">
-      <h2 className="text-2xl font-semibold mb-4 text-yellow-600">Trainer Details</h2>
+ return (
+  <div className="p-4 md:p-6 w-full text-sm">
 
-      {message && <p className="mb-4 text-green-600">{message}</p>}
+    <h2 className="text-xl md:text-2xl font-semibold mb-4 text-yellow-600">
+      Trainer Details
+    </h2>
 
-      {/* ------------------ Add Trainer Form ------------------ */}
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl mb-6 shadow-md border border-yellow-300">
-        <h3 className="text-xl font-bold mb-4 text-yellow-600">Add Trainer</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block mb-1 font-medium">Name</label>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter name"
-              className="p-2 border rounded w-full"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium">Contact Number</label>
-            <input
-              name="contactNumber"
-              value={formData.contactNumber}
-              onChange={handleChange}
-              placeholder="Enter contact number"
-              className="p-2 border rounded w-full"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium">Email</label>
-            <input
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter email"
-              className="p-2 border rounded w-full"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium">Specialization</label>
-            <input
-              name="specialization"
-              value={formData.specialization}
-              onChange={handleChange}
-              placeholder="Enter specialization"
-              className="p-2 border rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium">Experience (years)</label>
-            <input
-              type="number"
-              name="experience"
-              value={formData.experience}
-              onChange={handleChange}
-              placeholder="Enter experience"
-              className="p-2 border rounded w-full"
-              min={0}
-            />
-          </div>
-        </div>
-        <button
-          type="submit"
-          className="mt-4 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
-        >
-          Add Trainer
-        </button>
-      </form>
+    {message && <p className="mb-4 text-green-600">{message}</p>}
 
-      {/* ------------------ Trainer List ------------------ */}
-      <table className="min-w-full border border-gray-200">
+    {/* ✅ Add Trainer Form */}
+    <form className="bg-white p-4 md:p-6 rounded-2xl mb-6 shadow-md border border-yellow-300">
+      <h3 className="text-lg md:text-xl font-bold mb-4 text-yellow-600">
+        Add Trainer
+      </h3>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input className="p-2 border rounded w-full" placeholder="Name" />
+        <input className="p-2 border rounded w-full" placeholder="Contact Number" />
+        <input className="p-2 border rounded w-full" placeholder="Email" />
+        <input className="p-2 border rounded w-full" placeholder="Specialization" />
+        <input className="p-2 border rounded w-full" placeholder="Experience" />
+      </div>
+
+      <button className="mt-4 w-full md:w-auto bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
+        Add Trainer
+      </button>
+    </form>
+
+    {/* ✅ Table Wrapper (IMPORTANT FIX) */}
+    <div className="w-full overflow-x-auto">
+      <table className="min-w-[700px] w-full border border-gray-200 text-xs md:text-sm">
+        
         <thead className="bg-yellow-100 text-yellow-800">
           <tr>
             <th className="p-2 border">Name</th>
@@ -176,121 +132,62 @@ export default function TrainerPage() {
             <th className="p-2 border">Action</th>
           </tr>
         </thead>
+
         <tbody>
-          {Array.isArray(trainers) && trainers.length > 0 ? (
-            trainers.map((t) => (
-              <tr key={t._id} className="text-center hover:bg-yellow-50">
-                <td className="p-2 border">{t.name}</td>
-                <td className="p-2 border">{t.contactNumber}</td>
-                <td className="p-2 border">{t.email}</td>
-                <td className="p-2 border">{t.specialization}</td>
-                <td className="p-2 border">{t.experience}</td>
-                <td className="p-2 border flex justify-center gap-2">
-                  <button
-                    onClick={() => handleEdit(t)}
-                    className="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500 transition"
-                  >
+          {trainers.map((t) => (
+            <tr key={t._id} className="text-center hover:bg-yellow-50">
+              <td className="p-2 border">{t.name}</td>
+              <td className="p-2 border">{t.contactNumber}</td>
+              <td className="p-2 border">{t.email}</td>
+              <td className="p-2 border">{t.specialization}</td>
+              <td className="p-2 border">{t.experience}</td>
+              
+              <td className="p-2 border">
+                <div className="flex flex-col md:flex-row gap-2 justify-center">
+                  <button className="bg-yellow-400 text-white px-3 py-1 rounded w-full md:w-auto">
                     Edit
                   </button>
-                  <button
-                    onClick={() => handleDelete(t._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-                  >
+                  <button className="bg-red-500 text-white px-3 py-1 rounded w-full md:w-auto">
                     Delete
                   </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td className="p-2 border text-center" colSpan={6}>
-                No trainers found
+                </div>
               </td>
             </tr>
-          )}
+          ))}
         </tbody>
-      </table>
 
-      {/* ------------------ Edit Modal ------------------ */}
-      {editTrainer && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-2xl w-full max-w-md shadow-lg border-2 border-yellow-400">
-            <h3 className="text-xl font-bold mb-4 text-yellow-600">Edit Trainer</h3>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-              <div>
-                <label className="block mb-1 font-medium">Name</label>
-                <input
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter name"
-                  className="p-2 border rounded w-full"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Contact Number</label>
-                <input
-                  name="contactNumber"
-                  value={formData.contactNumber}
-                  onChange={handleChange}
-                  placeholder="Enter contact number"
-                  className="p-2 border rounded w-full"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Email</label>
-                <input
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter email"
-                  className="p-2 border rounded w-full"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Specialization</label>
-                <input
-                  name="specialization"
-                  value={formData.specialization}
-                  onChange={handleChange}
-                  placeholder="Enter specialization"
-                  className="p-2 border rounded w-full"
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Experience</label>
-                <input
-                  type="number"
-                  name="experience"
-                  value={formData.experience}
-                  onChange={handleChange}
-                  placeholder="Enter experience"
-                  className="p-2 border rounded w-full"
-                  min={0}
-                />
-              </div>
-              <div className="flex justify-end gap-2 mt-2">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      </table>
     </div>
-  );
+
+    {/* ✅ Edit Modal */}
+    {editTrainer && (
+      <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+        <div className="bg-white p-4 md:p-6 rounded-2xl w-full max-w-md shadow-lg border-2 border-yellow-400">
+
+          <h3 className="text-lg md:text-xl font-bold mb-4 text-yellow-600">
+            Edit Trainer
+          </h3>
+
+          <div className="grid gap-4">
+            <input className="p-2 border rounded w-full" placeholder="Name" />
+            <input className="p-2 border rounded w-full" placeholder="Contact" />
+            <input className="p-2 border rounded w-full" placeholder="Email" />
+            <input className="p-2 border rounded w-full" placeholder="Specialization" />
+            <input className="p-2 border rounded w-full" placeholder="Experience" />
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-end gap-2 mt-4">
+            <button className="w-full md:w-auto bg-gray-300 px-4 py-2 rounded">
+              Cancel
+            </button>
+            <button className="w-full md:w-auto bg-yellow-500 text-white px-4 py-2 rounded">
+              Save
+            </button>
+          </div>
+
+        </div>
+      </div>
+    )}
+  </div>
+);
 }

@@ -77,170 +77,165 @@ const Packages: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-8 text-gray-800">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-[#000000] tracking-wide">
-          🏋️‍♀️ Manage Gym Packages
-        </h2>
-        <div className="h-1 w-32 bg-yellow-400 rounded-full"></div>
-      </div>
+  <div className="min-h-screen bg-white p-4 md:p-8 text-gray-800">
 
-      {/* Form Card */}
-      <div className="bg-yellow-50 p-6 rounded-2xl shadow-md border border-yellow-200 mb-8">
-        <h3 className="text-lg font-semibold mb-4 text-yellow-800 flex items-center gap-2">
-          <PackagePlus size={20} /> Add New Package
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">Package Name</label>
-            <input
-              type="text"
-              name="packageName"
-              placeholder="Enter package name"
-              value={formData.packageName}
-              onChange={handleChange}
-              className="border border-yellow-300 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-400 p-2 rounded-md outline-none transition"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">Days</label>
-            <input
-              type="number"
-              name="days"
-              placeholder="Enter duration in days"
-              value={formData.days}
-              onChange={handleChange}
-              className="border border-yellow-300 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-400 p-2 rounded-md outline-none transition"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
-            <input
-              type="number"
-              name="price"
-              placeholder="Enter package price"
-              value={formData.price}
-              onChange={handleChange}
-              className="border border-yellow-300 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-400 p-2 rounded-md outline-none transition"
-            />
-          </div>
-        </div>
-
-        <button
-          onClick={handleAddPackage}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-md font-medium transition flex items-center gap-2"
-        >
-          <PackagePlus size={18} /> Add Package
-        </button>
-      </div>
-
-      {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
-        <h3 className="bg-yellow-100 text-yellow-800 px-6 py-3 font-semibold text-lg">
-          📦 Package List
-        </h3>
-        <table className="w-full border-t border-gray-200 text-sm">
-          <thead className="bg-gray-50 text-gray-700 uppercase text-xs font-semibold">
-            <tr>
-              <th className="px-6 py-3 text-left">Name</th>
-              <th className="px-6 py-3 text-left">Days</th>
-              <th className="px-6 py-3 text-left">Price</th>
-              <th className="px-6 py-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {packages.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="text-center py-6 text-gray-400">
-                  No packages found. Add a new one above!
-                </td>
-              </tr>
-            ) : (
-              packages.map((pkg) => (
-                <tr
-                  key={pkg._id}
-                  className="hover:bg-yellow-50 transition border-b border-gray-100"
-                >
-                  <td className="px-6 py-3">{pkg.packageName}</td>
-                  <td className="px-6 py-3">{pkg.days} days</td>
-                  <td className="px-6 py-3 font-medium text-yellow-700">₹{pkg.price}</td>
-                  <td className="px-6 py-3 text-center flex justify-center gap-4">
-                    <button
-                      onClick={() => openEditPopup(pkg)}
-                      className="text-blue-500 hover:text-blue-700 transition"
-                      title="Edit package"
-                    >
-                      <Pencil size={18} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(pkg._id)}
-                      className="text-red-500 hover:text-red-700 transition"
-                      title="Delete package"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* ===== Edit Popup Modal ===== */}
-      {isEditOpen && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md relative">
-            <h3 className="text-lg font-semibold mb-4 text-yellow-800">✏️ Edit Package</h3>
-            <div className="flex flex-col gap-3">
-              <input
-                type="text"
-                name="packageName"
-                value={editData.packageName}
-                onChange={handleEditChange}
-                className="border border-gray-300 p-2 rounded-md"
-                placeholder="Package name"
-              />
-              <input
-                type="number"
-                name="days"
-                value={editData.days}
-                onChange={handleEditChange}
-                className="border border-gray-300 p-2 rounded-md"
-                placeholder="Days"
-              />
-              <input
-                type="number"
-                name="price"
-                value={editData.price}
-                onChange={handleEditChange}
-                className="border border-gray-300 p-2 rounded-md"
-                placeholder="Price"
-              />
-            </div>
-            <div className="flex justify-end gap-3 mt-5">
-              <button
-                onClick={closeEditPopup}
-                className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleUpdate}
-                className="px-4 py-2 rounded-md bg-yellow-500 hover:bg-yellow-600 text-white transition"
-              >
-                Update
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+    {/* Header */}
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
+      <h2 className="text-xl md:text-2xl font-bold tracking-wide">
+        🏋️‍♀️ Manage Gym Packages
+      </h2>
+      <div className="h-1 w-24 md:w-32 bg-yellow-400 rounded-full"></div>
     </div>
-  );
+
+    {/* Form */}
+    <div className="bg-yellow-50 p-4 md:p-6 rounded-2xl shadow-md border border-yellow-200 mb-8">
+      <h3 className="text-base md:text-lg font-semibold mb-4 text-yellow-800 flex items-center gap-2">
+        <PackagePlus size={18} /> Add New Package
+      </h3>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+        <input
+          type="text"
+          name="packageName"
+          placeholder="Package Name"
+          value={formData.packageName}
+          onChange={handleChange}
+          className="border p-2 rounded-md w-full"
+        />
+        <input
+          type="number"
+          name="days"
+          placeholder="Days"
+          value={formData.days}
+          onChange={handleChange}
+          className="border p-2 rounded-md w-full"
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price ₹"
+          value={formData.price}
+          onChange={handleChange}
+          className="border p-2 rounded-md w-full"
+        />
+      </div>
+
+      <button className="w-full md:w-auto bg-yellow-500 text-white px-6 py-2 rounded-md">
+        Add Package
+      </button>
+    </div>
+
+    {/* ================= DESKTOP TABLE ================= */}
+    <div className="hidden md:block bg-white rounded-2xl shadow-md border overflow-hidden">
+      <h3 className="bg-yellow-100 px-6 py-3 font-semibold">
+        📦 Package List
+      </h3>
+
+      <table className="w-full text-sm">
+        <thead className="bg-gray-50 text-xs">
+          <tr>
+            <th className="px-6 py-3 text-left">Name</th>
+            <th className="px-6 py-3 text-left">Days</th>
+            <th className="px-6 py-3 text-left">Price</th>
+            <th className="px-6 py-3 text-center">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {packages.map((pkg) => (
+            <tr key={pkg._id} className="hover:bg-yellow-50 border-b">
+
+              <td className="px-6 py-3">{pkg.packageName}</td>
+              <td className="px-6 py-3">{pkg.days} days</td>
+              <td className="px-6 py-3 text-yellow-700">₹{pkg.price}</td>
+
+              <td className="px-6 py-3 flex justify-center gap-4">
+                <button onClick={() => openEditPopup(pkg)}>
+                  <Pencil size={18} />
+                </button>
+                <button onClick={() => handleDelete(pkg._id)}>
+                  <Trash2 size={18} />
+                </button>
+              </td>
+
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* ================= MOBILE CARDS ================= */}
+    <div className="md:hidden space-y-4">
+
+      {packages.length === 0 ? (
+        <p className="text-center text-gray-400">
+          No packages found
+        </p>
+      ) : (
+        packages.map((pkg) => (
+          <div
+            key={pkg._id}
+            className="border rounded-lg p-4 shadow-sm"
+          >
+
+            <h3 className="font-semibold text-gray-800">
+              {pkg.packageName}
+            </h3>
+
+            <p className="text-sm text-gray-600">
+              ⏱ {pkg.days} days
+            </p>
+
+            <p className="text-sm text-yellow-600 font-medium">
+              ₹{pkg.price}
+            </p>
+
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={() => openEditPopup(pkg)}
+                className="w-full bg-blue-500 text-white py-1 rounded"
+              >
+                Edit
+              </button>
+
+              <button
+                onClick={() => handleDelete(pkg._id)}
+                className="w-full bg-red-500 text-white py-1 rounded"
+              >
+                Delete
+              </button>
+            </div>
+
+          </div>
+        ))
+      )}
+
+    </div>
+
+    {/* Modal */}
+    {isEditOpen && (
+      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+        <div className="bg-white p-4 md:p-6 rounded-xl w-full max-w-md">
+
+          <input className="border p-2 w-full mb-3" />
+          <input className="border p-2 w-full mb-3" />
+          <input className="border p-2 w-full mb-3" />
+
+          <div className="flex flex-col md:flex-row gap-2 justify-end">
+            <button className="w-full md:w-auto border px-4 py-2">
+              Cancel
+            </button>
+            <button className="w-full md:w-auto bg-yellow-500 text-white px-4 py-2">
+              Update
+            </button>
+          </div>
+
+        </div>
+      </div>
+    )}
+
+  </div>
+);
 };
 
 export default Packages;

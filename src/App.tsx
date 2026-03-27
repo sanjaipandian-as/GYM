@@ -13,6 +13,8 @@ import ClientBirthdays from "./components/ClientBirthdays";
 import ClientAnniversaries from "./components/ClientAnniversaries";
 import Packages from "./components/Packages";
 import ManageBalance from "./components/ManageBalance"; // ✅ NEW IMPORT
+import Expenses from "./components/Expenses";
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState("dashboard");
@@ -57,6 +59,8 @@ function App() {
         return <Packages />;
       case "managebalance":
         return <ManageBalance />; // ✅ NEW PAGE
+        case "expenses":
+      return <Expenses />;
       default:
         return <ComingSoon />;
     }

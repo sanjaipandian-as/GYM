@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import bgImage from '../assets/login-bg.jpg';
-import logo from './image.png';
+import logo from '../assets/logo.jpeg';
 
 // ✅ Import Common API URL
 import { API_URI } from "../api/api";
@@ -62,6 +62,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             className="w-16 h-16 mb-2 rounded-full shadow-lg border border-yellow-400"
           />
         </div>
+
+        <h1 className="text-center text-yellow-400 mb-6 text-xl">
+          One 2 life fitness studio1
+        </h1>
 
         <p className="text-center text-gray-400 mb-6 text-sm">
           Login to continue to your dashboard
