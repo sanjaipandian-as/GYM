@@ -38,9 +38,14 @@ const Packages: React.FC = () => {
     fetchPackages();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+
+  setFormData({
+    ...formData,
+    [name]: name === "days" || name === "price" ? Number(value) : value,
+  });
+};
 
   const handleAddPackage = async () => {
     if (!formData.packageName || formData.days <= 0 || formData.price <= 0) return;
@@ -65,9 +70,14 @@ const Packages: React.FC = () => {
     setIsEditOpen(false);
   };
 
-  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
+ const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+
+  setEditData({
+    ...editData,
+    [name]: name === "days" || name === "price" ? Number(value) : value,
+  });
+};
 
   const handleUpdate = async () => {
     if (!editData._id) return;
@@ -93,36 +103,52 @@ const Packages: React.FC = () => {
         <PackagePlus size={18} /> Add New Package
       </h3>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-        <input
-          type="text"
-          name="packageName"
-          placeholder="Package Name"
-          value={formData.packageName}
-          onChange={handleChange}
-          className="border p-2 rounded-md w-full"
-        />
-        <input
-          type="number"
-          name="days"
-          placeholder="Days"
-          value={formData.days}
-          onChange={handleChange}
-          className="border p-2 rounded-md w-full"
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price ₹"
-          value={formData.price}
-          onChange={handleChange}
-          className="border p-2 rounded-md w-full"
-        />
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+  
+  <div className="flex flex-col">
+    <label className="mb-1 text-sm font-medium">Package Name</label>
+    <input
+      type="text"
+      name="packageName"
+      placeholder="Enter package name"
+      value={formData.packageName}
+      onChange={handleChange}
+      className="border p-2 rounded-md w-full"
+    />
+  </div>
 
-      <button className="w-full md:w-auto bg-yellow-500 text-white px-6 py-2 rounded-md">
-        Add Package
-      </button>
+  <div className="flex flex-col">
+    <label className="mb-1 text-sm font-medium">Days</label>
+    <input
+      type="number"
+      name="days"
+      placeholder="Enter number of days"
+      value={formData.days}
+      onChange={handleChange}
+      className="border p-2 rounded-md w-full"
+    />
+  </div>
+
+  <div className="flex flex-col">
+    <label className="mb-1 text-sm font-medium">Price (₹)</label>
+    <input
+      type="number"
+      name="price"
+      placeholder="Enter price"
+      value={formData.price}
+      onChange={handleChange}
+      className="border p-2 rounded-md w-full"
+    />
+  </div>
+
+</div>
+
+      <button
+  onClick={handleAddPackage}
+  className="w-full md:w-auto bg-yellow-500 text-white px-6 py-2 rounded-md"
+>
+  Add Package
+</button>
     </div>
 
     {/* ================= DESKTOP TABLE ================= */}
@@ -216,18 +242,44 @@ const Packages: React.FC = () => {
     {isEditOpen && (
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
         <div className="bg-white p-4 md:p-6 rounded-xl w-full max-w-md">
-
-          <input className="border p-2 w-full mb-3" />
-          <input className="border p-2 w-full mb-3" />
-          <input className="border p-2 w-full mb-3" />
-
+   <label className="mb-1 text-sm font-medium">Package</label>
+         <input
+  type="text"
+  name="packageName"
+  value={editData.packageName}
+  onChange={handleEditChange}
+  className="border p-2 w-full mb-3"
+/>
+   <label className="mb-1 text-sm font-medium">Days</label>
+<input
+  type="number"
+  name="days"
+  value={editData.days}
+  onChange={handleEditChange}
+  className="border p-2 w-full mb-3"
+/>
+   <label className="mb-1 text-sm font-medium">Price</label>
+<input
+  type="number"
+  name="price"
+  value={editData.price}
+  onChange={handleEditChange}
+  className="border p-2 w-full mb-3"
+/>
           <div className="flex flex-col md:flex-row gap-2 justify-end">
-            <button className="w-full md:w-auto border px-4 py-2">
-              Cancel
-            </button>
-            <button className="w-full md:w-auto bg-yellow-500 text-white px-4 py-2">
-              Update
-            </button>
+           <button
+  onClick={closeEditPopup}
+  className="w-full md:w-auto border px-4 py-2"
+>
+  Cancel
+</button>
+
+<button
+  onClick={handleUpdate}
+  className="w-full md:w-auto bg-yellow-500 text-white px-4 py-2"
+>
+  Update
+</button>
           </div>
 
         </div>

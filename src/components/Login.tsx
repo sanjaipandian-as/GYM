@@ -64,7 +64,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         </div>
 
         <h1 className="text-center text-yellow-400 mb-6 text-xl">
-          One 2 life fitness studio1
+          H4 Fitness Studio Semmancheri
         </h1>
 
         <p className="text-center text-gray-400 mb-6 text-sm">

@@ -160,7 +160,7 @@ export default function Birthday() {
             <th className="py-2 md:py-3 px-2 md:px-4 border">DOB</th>
             <th className="py-2 md:py-3 px-2 md:px-4 border">Gender</th>
             <th className="py-2 md:py-3 px-2 md:px-4 border">Contact</th>
-            <th className="py-2 md:py-3 px-2 md:px-4 border">Action</th>
+           
           </tr>
         </thead>
 
@@ -181,11 +181,7 @@ export default function Birthday() {
                 <td className="py-2 px-2 md:px-4 border">{client.gender || "-"}</td>
                 <td className="py-2 px-2 md:px-4 border">{client.contactNumber}</td>
 
-                <td className="py-2 px-2 md:px-4 border">
-                  <button className="w-full md:w-auto bg-yellow-400 text-white px-3 py-1 rounded-md text-xs hover:bg-gray-700">
-                    Wish
-                  </button>
-                </td>
+               
 
               </tr>
             ))

@@ -83,139 +83,194 @@ export default function Expenses() {
     (sum, e) => sum + Number(e.amount),
     0
   );
-return (
-  <div className="p-4 md:p-6 space-y-6">
 
-    {/* Header */}
-    <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-4 md:p-5 rounded-lg text-white shadow">
-      <h2 className="text-lg md:text-2xl font-bold">💰 Expense Management</h2>
-      <p className="text-xs md:text-sm opacity-90">
-        Track & filter your gym expenses easily
-      </p>
-    </div>
+  return (
+    <div className="p-6 space-y-6">
 
-    {/* Filters */}
-    <div className="bg-white p-4 rounded-lg shadow space-y-3">
-      <div className="flex items-center gap-2 text-yellow-600 font-semibold">
-        <Filter size={18} /> Filters
+      {/* 🟡 Header */}
+      <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-5 rounded-lg text-white shadow">
+        <h2 className="text-2xl font-bold">💰 Expense Management</h2>
+        <p className="text-sm opacity-90">
+          Track & filter your gym expenses easily
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      {/* 🔍 Filters */}
+      <div className="bg-white p-4 rounded-lg shadow space-y-3">
+        <div className="flex items-center gap-2 text-yellow-600 font-semibold">
+          <Filter size={18} /> Filters
+        </div>
 
-        <select className="border p-2 rounded w-full">
-          <option>All Categories</option>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          <select
+            className="border rounded p-2"
+            value={filters.category}
+            onChange={(e) =>
+              setFilters({ ...filters, category: e.target.value })
+            }
+          >
+            <option>All</option>
+            <option>Rent</option>
+            <option>Salary</option>
+            <option>Electricity</option>
+            <option>Maintenance</option>
+            <option>Marketing</option>
+            <option>Equipment</option>
+            <option>Other</option>
+          </select>
+
+          <select
+            className="border rounded p-2"
+            value={filters.paymentMode}
+            onChange={(e) =>
+              setFilters({ ...filters, paymentMode: e.target.value })
+            }
+          >
+            <option>All</option>
+            <option>Cash</option>
+            <option>UPI</option>
+            <option>Card</option>
+            <option>Bank Transfer</option>
+          </select>
+
+          <input
+            type="date"
+            className="border rounded p-2"
+            value={filters.fromDate}
+            onChange={(e) =>
+              setFilters({ ...filters, fromDate: e.target.value })
+            }
+          />
+
+          <input
+            type="date"
+            className="border rounded p-2"
+            value={filters.toDate}
+            onChange={(e) =>
+              setFilters({ ...filters, toDate: e.target.value })
+            }
+          />
+
+          <button
+            onClick={() =>
+              setFilters({
+                category: "All",
+                paymentMode: "All",
+                fromDate: "",
+                toDate: "",
+              })
+            }
+            className="bg-yellow-500 text-white rounded hover:bg-yellow-600"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+
+      {/* ➕ Add Expense */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-4 rounded-lg shadow grid grid-cols-1 md:grid-cols-5 gap-3"
+      >
+        <input
+          className="border rounded p-2"
+          placeholder="Title"
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          required
+        />
+
+        <select
+          className="border rounded p-2"
+          value={form.category}
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
+        >
+          <option>Rent</option>
+          <option>Salary</option>
+          <option>Electricity</option>
+          <option>Maintenance</option>
+          <option>Marketing</option>
+          <option>Equipment</option>
+          <option>Other</option>
         </select>
 
-        <select className="border p-2 rounded w-full">
-          <option>All Payments</option>
+        <input
+          type="number"
+          className="border rounded p-2"
+          placeholder="Amount"
+          value={form.amount}
+          onChange={(e) => setForm({ ...form, amount: e.target.value })}
+          required
+        />
+
+        <select
+          className="border rounded p-2"
+          value={form.paymentMode}
+          onChange={(e) =>
+            setForm({ ...form, paymentMode: e.target.value })
+          }
+        >
+          <option>Cash</option>
+          <option>UPI</option>
+          <option>Card</option>
+          <option>Bank Transfer</option>
         </select>
 
-        <input type="date" className="border p-2 rounded w-full" />
-        <input type="date" className="border p-2 rounded w-full" />
-
-        <button className="w-full bg-yellow-500 text-white rounded">
-          Clear
+        <button className="bg-yellow-500 text-white rounded flex items-center justify-center gap-2 hover:bg-yellow-600">
+          <PlusCircle size={18} /> Add
         </button>
 
+        <textarea
+          className="border rounded p-2 md:col-span-5"
+          placeholder="Notes"
+          value={form.notes}
+          onChange={(e) => setForm({ ...form, notes: e.target.value })}
+        />
+      </form>
+
+      {/* 📊 Summary */}
+      <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg font-semibold text-yellow-800">
+        Total Expense: ₹ {totalAmount}
+      </div>
+
+      {/* 📋 Table */}
+      <div className="bg-white rounded-lg shadow overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-yellow-100">
+            <tr>
+              <th className="p-3 text-left">Title</th>
+              <th className="p-3 text-center">Category</th>
+              <th className="p-3 text-center">Amount</th>
+              <th className="p-3 text-center">Payment</th>
+              <th className="p-3 text-center">Date</th>
+              <th className="p-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredExpenses.map((exp) => (
+              <tr key={exp._id} className="border-t hover:bg-yellow-50">
+                <td className="p-2">{exp.title}</td>
+                <td className="p-2 text-center">{exp.category}</td>
+                <td className="p-2 text-center font-bold text-yellow-600">
+                  ₹{exp.amount}
+                </td>
+                <td className="p-2 text-center">{exp.paymentMode}</td>
+                <td className="p-2 text-center">
+                  {new Date(exp.expenseDate).toLocaleDateString()}
+                </td>
+                <td className="p-2 text-center">
+                  <button
+                    onClick={() => deleteExpense(exp._id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
-
-    {/* Add Expense */}
-    <form className="bg-white p-4 rounded-lg shadow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-
-      <input className="border p-2 rounded" placeholder="Title" />
-
-      <select className="border p-2 rounded">
-        <option>Category</option>
-      </select>
-
-      <input type="number" className="border p-2 rounded" placeholder="Amount" />
-
-      <select className="border p-2 rounded">
-        <option>Payment Mode</option>
-      </select>
-
-      <button className="w-full md:w-auto bg-yellow-500 text-white rounded flex justify-center items-center gap-2">
-        <PlusCircle size={18} /> Add
-      </button>
-
-      <textarea className="border p-2 rounded md:col-span-3" placeholder="Notes" />
-
-    </form>
-
-    {/* Summary */}
-    <div className="bg-yellow-50 p-4 rounded-lg font-semibold text-yellow-800">
-      Total Expense: ₹ {totalAmount}
-    </div>
-
-    {/* ================= DESKTOP TABLE ================= */}
-    <div className="hidden md:block bg-white rounded-lg shadow overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead className="bg-yellow-100">
-          <tr>
-            <th className="p-3 text-left">Title</th>
-            <th className="p-3 text-center">Category</th>
-            <th className="p-3 text-center">Amount</th>
-            <th className="p-3 text-center">Payment</th>
-            <th className="p-3 text-center">Date</th>
-            <th className="p-3 text-center">Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {filteredExpenses.map((exp) => (
-            <tr key={exp._id} className="border-t hover:bg-yellow-50">
-              <td className="p-2">{exp.title}</td>
-              <td className="p-2 text-center">{exp.category}</td>
-              <td className="p-2 text-center text-yellow-600">₹{exp.amount}</td>
-              <td className="p-2 text-center">{exp.paymentMode}</td>
-              <td className="p-2 text-center">
-                {new Date(exp.expenseDate).toLocaleDateString()}
-              </td>
-              <td className="p-2 text-center">
-                <button className="text-red-500">
-                  <Trash2 size={16} />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
-    {/* ================= MOBILE CARDS ================= */}
-    <div className="md:hidden space-y-4">
-
-      {filteredExpenses.length === 0 ? (
-        <p className="text-center text-gray-500">No expenses found</p>
-      ) : (
-        filteredExpenses.map((exp) => (
-          <div key={exp._id} className="bg-white p-4 rounded-lg shadow">
-
-            <h3 className="font-semibold">{exp.title}</h3>
-
-            <p className="text-xs text-gray-600">{exp.category}</p>
-
-            <p className="text-yellow-600 font-semibold">
-              ₹{exp.amount}
-            </p>
-
-            <p className="text-xs">{exp.paymentMode}</p>
-
-            <p className="text-xs">
-              {new Date(exp.expenseDate).toLocaleDateString()}
-            </p>
-
-            <button className="mt-3 w-full bg-red-500 text-white py-2 rounded">
-              Delete
-            </button>
-
-          </div>
-        ))
-      )}
-
-    </div>
-
-  </div>
-);
+  );
 }

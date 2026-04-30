@@ -205,7 +205,6 @@ const ClientAnniversaries: React.FC = () => {
               <th className="p-3 border">Date</th>
               <th className="p-3 border">Gender</th>
               <th className="p-3 border">Contact</th>
-              <th className="p-3 border">Action</th>
             </tr>
           </thead>
 
@@ -226,12 +225,7 @@ const ClientAnniversaries: React.FC = () => {
                     </div>
                   </td>
 
-                  <td className="p-3 border">
-                    <button className="bg-yellow-500 text-white px-3 py-1 rounded-md">
-                      Wish 🎉
-                    </button>
-                  </td>
-
+                 
                 </tr>
               ))
             ) : (
@@ -277,9 +271,7 @@ const ClientAnniversaries: React.FC = () => {
                 {c.gender || "-"}
               </p>
 
-              <button className="mt-3 w-full bg-yellow-500 text-white py-2 rounded-md text-sm">
-                Wish 🎉
-              </button>
+             
 
             </div>
           ))

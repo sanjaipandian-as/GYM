@@ -159,7 +159,8 @@ useEffect(() => {
   }
   if (filters.package) filtered = filtered.filter((c) => c.package === filters.package);
   if (filters.status) filtered = filtered.filter((c) => c.status === filters.status);
-  if (filters.trainer) filtered = filtered.filter((c) => c.trainer === filters.trainer);
+  if (filters.trainer)
+  filtered = filtered.filter((c) => c.appointTrainer === filters.trainer);
   if (filters.endDate)
     filtered = filtered.filter(
       (c) => new Date(c.endDate) <= new Date(filters.endDate)
@@ -170,7 +171,7 @@ useEffect(() => {
   if (filters.month !== "") {
     filtered = filtered.filter((c) => {
       const end = new Date(c.endDate);
-      return end.getMonth().toString() === filters.month;
+      return end.getMonth() === Number(filters.month);
 
       // 👇 Optional: use joiningDate instead if needed
       // const join = new Date(c.joiningDate);
@@ -198,32 +199,28 @@ const fetchTrainers = async () => {
 };
 
 
- const [renewData, setRenewData] = useState({
+const [renewData, setRenewData] = useState({
   joiningDate: "",
   endDate: "",
   package: "",
+  days: "", // ✅ ADD THIS
   price: "",
   discount: "",
   discountAmount: "",
   amountPaid: "",
   balance: "",
   remarks: "",
-   admissionCharges: "", 
+  admissionCharges: "", 
   trainer: "",
   paymentMethod: "",
 });
-
   const [showRenewForm, setShowRenewForm] = useState<string | null>(null);
   const [packages, setPackages] = useState<
   { _id: string; packageName: string; days: number; price: number }[]
 >([]);
 
 
-  useEffect(() => {
-  fetchClients();
-  fetchPackages();
-}, []);
-
+  
 const fetchPackages = async () => {
   try {
     const res = await axios.get(`${API_URI}/packages`);
@@ -479,7 +476,7 @@ const calculateEndDate = (joiningDate: string, days: number) => {
         type="checkbox"
         onChange={(e) => {
           if (e.target.checked) {
-            setSelectedClients(clients.map((c) => c._id));
+            setSelectedClients(filteredClients.map((c) => c._id));
           } else {
             setSelectedClients([]);
           }

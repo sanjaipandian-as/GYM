@@ -17,14 +17,14 @@ export const generateCurrentPackageBill = async (client: any) => {
   doc.addImage(logo, "PNG", 14, 10, 30, 30);
 
   doc.setFontSize(14);
-  doc.text("ONE 2 Lifestyle Fitness Studio", 50, 18);
+  doc.text("H4 fitnessstudio Semmancheri", 50, 18);
 
   doc.setFontSize(9);
   doc.text(
     [
-      "Address: 1/134, East Coast Road, Palavakkam, Chennai-41",
-      "Phone: +91 97907 10332",
-      "Email: geetha300497@gmail.com",
+      "Address: 721, Kailasah Palaza, Plot No. 710, Nookampalayam Link Road, Semmancheri, Chennai-600119",
+      "Phone: +91 98404 31433",
+      "Email: h4fitness.semmancheri@gmail.com",
     ],
     50,
     24
@@ -125,7 +125,7 @@ export const generateCurrentPackageBill = async (client: any) => {
     14,
     278
   );
-  doc.text("One 2 Lifestyle Fitness Studio", 90, 288);
+  doc.text("H4 fitnessstudio Semmancheri", 90, 288);
 
   // ✅ THIS LINE NOW ALWAYS RUNS
   doc.save(`Bill_${client.client}_${client.memberId}.pdf`);
