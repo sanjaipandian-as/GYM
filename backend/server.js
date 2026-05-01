@@ -58,6 +58,14 @@ app.use("/api/gymbill", gymBillRoutes);
 app.use("/api/packages", packageRoutes);
 app.use("/api/expenses", expenseRoutes);
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Gym backend running 🚀",
+    service: "Gym API",
+    uptime: process.uptime()
+  });
+});
 // Database connection
 mongoose
   .connect(process.env.MONGO_URI)
@@ -65,8 +73,8 @@ mongoose
   .catch((err) => console.error("❌ MongoDB Connection Failed:", err));
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(process.env.PORT || 8100, '0.0.0.0', () => {
-  console.log(`Server running on port ${process.env.PORT}`);
-});
+const PORT = process.env.PORT || 7699;
 
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
