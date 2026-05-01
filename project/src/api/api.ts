@@ -1,0 +1,1 @@
+export const API_URI = "https://gymsem.h4fitness.com/api"
